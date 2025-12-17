@@ -3,9 +3,9 @@
 /* =======================
    Utility
 ======================= */
-const elementToggleFunc = function (elem) {
+function toggleActive(elem) {
   if (elem) elem.classList.toggle("active");
-};
+}
 
 /* =======================
    Sidebar Toggle
@@ -14,7 +14,7 @@ const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
 
 if (sidebar && sidebarBtn) {
-  sidebarBtn.addEventListener("click", () => elementToggleFunc(sidebar));
+  sidebarBtn.addEventListener("click", () => toggleActive(sidebar));
 }
 
 /* =======================
@@ -26,86 +26,79 @@ const selectValue = document.querySelector("[data-select-value]");
 const filterBtns = document.querySelectorAll("[data-filter-btn]");
 const filterItems = document.querySelectorAll("[data-filter-item]");
 
-const filterFunc = function (selectedValue) {
+function filterProjects(selectedValue) {
   filterItems.forEach(item => {
-    const category = item.dataset.category?.toLowerCase();
+    const category = item.dataset.category.toLowerCase();
     if (selectedValue === "all" || selectedValue === category) {
       item.classList.add("active");
     } else {
       item.classList.remove("active");
     }
   });
-};
+}
 
-// Mobile select dropdown
 if (select) {
-  select.addEventListener("click", () => elementToggleFunc(select));
+  select.addEventListener("click", () => toggleActive(select));
 
   selectItems.forEach(item => {
-    item.addEventListener("click", function () {
-      const selectedValue = this.innerText.toLowerCase();
-      if (selectValue) selectValue.innerText = this.innerText;
-      elementToggleFunc(select);
-      filterFunc(selectedValue);
+    item.addEventListener("click", () => {
+      const value = item.innerText.toLowerCase();
+      selectValue.innerText = item.innerText;
+      toggleActive(select);
+      filterProjects(value);
     });
   });
 }
 
-// Desktop filter buttons
-let lastClickedBtn = filterBtns[0];
+let lastBtn = filterBtns[0];
 
 filterBtns.forEach(btn => {
-  btn.addEventListener("click", function () {
-    const selectedValue = this.innerText.toLowerCase();
-    if (selectValue) selectValue.innerText = this.innerText;
-    filterFunc(selectedValue);
+  btn.addEventListener("click", () => {
+    const value = btn.innerText.toLowerCase();
+    selectValue.innerText = btn.innerText;
+    filterProjects(value);
 
-    if (lastClickedBtn) lastClickedBtn.classList.remove("active");
-    this.classList.add("active");
-    lastClickedBtn = this;
+    if (lastBtn) lastBtn.classList.remove("active");
+    btn.classList.add("active");
+    lastBtn = btn;
   });
 });
 
 /* =======================
-   Contact Form Validation
+   Contact Form
 ======================= */
 const form = document.querySelector("[data-form]");
-const formInputs = document.querySelectorAll("[data-form-input]");
-const formBtn = document.querySelector("[data-form-btn]");
+const inputs = document.querySelectorAll("[data-form-input]");
+const submitBtn = document.querySelector("[data-form-btn]");
 
-if (form && formInputs.length && formBtn) {
-  formInputs.forEach(input => {
+if (form && inputs.length && submitBtn) {
+  inputs.forEach(input => {
     input.addEventListener("input", () => {
-      if (form.checkValidity()) {
-        formBtn.removeAttribute("disabled");
-      } else {
-        formBtn.setAttribute("disabled", "");
-      }
+      form.checkValidity()
+        ? submitBtn.removeAttribute("disabled")
+        : submitBtn.setAttribute("disabled", "");
     });
   });
 }
 
 /* =======================
-   Page Navigation
+   Page Navigation (FIXED)
 ======================= */
-const navigationLinks = document.querySelectorAll("[data-nav-link]");
+const navLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
-navigationLinks.forEach(link => {
-  link.addEventListener("click", function (e) {
+navLinks.forEach(link => {
+  link.addEventListener("click", e => {
     e.preventDefault();
 
-    const targetPage = this.innerText.toLowerCase();
+    const target = link.innerText.toLowerCase();
 
     pages.forEach(page => {
-      page.classList.toggle(
-        "active",
-        page.dataset.page === targetPage
-      );
+      page.classList.toggle("active", page.dataset.page === target);
     });
 
-    navigationLinks.forEach(nav => nav.classList.remove("active"));
-    this.classList.add("active");
+    navLinks.forEach(n => n.classList.remove("active"));
+    link.classList.add("active");
 
     window.scrollTo(0, 0);
   });
