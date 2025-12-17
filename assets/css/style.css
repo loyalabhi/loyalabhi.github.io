@@ -1888,20 +1888,20 @@ textarea.form-input::-webkit-resizer { display: none; }
 }
 
 .project-title {
-  color: #7f5af0;
+  color: #f1f1f1;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
 .project-desc {
   font-size: 13px;
-  color: #ccc;
+  color: #b5b5b5;
   margin-bottom: 6px;
 }
 
 .project-tech {
   font-size: 11px;
-  color: #888;
+  color: #7aa2f7;
   letter-spacing: 0.5px;
 }
 
