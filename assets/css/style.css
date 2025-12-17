@@ -557,8 +557,8 @@ main {
 
 .service-item:hover svg {
   stroke: #ffd88a;
-  transform: scale(2);
-  transition: all 0.4s ease;
+  transform: scale(1.5);
+  transition: all 0.3s ease;
 }
 
 
