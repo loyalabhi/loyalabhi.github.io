@@ -8,7 +8,7 @@ const elementToggleFunc = function (elem) {
 };
 
 /* =======================
-   Sidebar
+   Sidebar Toggle
 ======================= */
 const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
@@ -23,7 +23,7 @@ if (sidebar && sidebarBtn) {
 const select = document.querySelector("[data-select]");
 const selectItems = document.querySelectorAll("[data-select-item]");
 const selectValue = document.querySelector("[data-select-value]");
-const filterBtn = document.querySelectorAll("[data-filter-btn]");
+const filterBtns = document.querySelectorAll("[data-filter-btn]");
 const filterItems = document.querySelectorAll("[data-filter-item]");
 
 const filterFunc = function (selectedValue) {
@@ -37,6 +37,7 @@ const filterFunc = function (selectedValue) {
   });
 };
 
+// Mobile select dropdown
 if (select) {
   select.addEventListener("click", () => elementToggleFunc(select));
 
@@ -50,9 +51,10 @@ if (select) {
   });
 }
 
-let lastClickedBtn = filterBtn[0];
+// Desktop filter buttons
+let lastClickedBtn = filterBtns[0];
 
-filterBtn.forEach(btn => {
+filterBtns.forEach(btn => {
   btn.addEventListener("click", function () {
     const selectedValue = this.innerText.toLowerCase();
     if (selectValue) selectValue.innerText = this.innerText;
@@ -65,7 +67,7 @@ filterBtn.forEach(btn => {
 });
 
 /* =======================
-   Contact Form
+   Contact Form Validation
 ======================= */
 const form = document.querySelector("[data-form]");
 const formInputs = document.querySelectorAll("[data-form-input]");
@@ -74,15 +76,17 @@ const formBtn = document.querySelector("[data-form-btn]");
 if (form && formInputs.length && formBtn) {
   formInputs.forEach(input => {
     input.addEventListener("input", () => {
-      form.checkValidity()
-        ? formBtn.removeAttribute("disabled")
-        : formBtn.setAttribute("disabled", "");
+      if (form.checkValidity()) {
+        formBtn.removeAttribute("disabled");
+      } else {
+        formBtn.setAttribute("disabled", "");
+      }
     });
   });
 }
 
 /* =======================
-   Page Navigation (CRITICAL)
+   Page Navigation
 ======================= */
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
@@ -90,10 +94,14 @@ const pages = document.querySelectorAll("[data-page]");
 navigationLinks.forEach(link => {
   link.addEventListener("click", function (e) {
     e.preventDefault();
-    const target = this.innerText.toLowerCase();
+
+    const targetPage = this.innerText.toLowerCase();
 
     pages.forEach(page => {
-      page.classList.toggle("active", page.dataset.page === target);
+      page.classList.toggle(
+        "active",
+        page.dataset.page === targetPage
+      );
     });
 
     navigationLinks.forEach(nav => nav.classList.remove("active"));
