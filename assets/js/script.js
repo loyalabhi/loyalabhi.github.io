@@ -14,42 +14,7 @@ const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
 
 if (sidebar && sidebarBtn) {
-  sidebarBtn.addEventListener("click", function () {
-    elementToggleFunc(sidebar);
-  });
-}
-
-/* =======================
-   Testimonials (SAFE)
-======================= */
-const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
-const modalContainer = document.querySelector("[data-modal-container]");
-const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
-const overlay = document.querySelector("[data-overlay]");
-const modalImg = document.querySelector("[data-modal-img]");
-const modalTitle = document.querySelector("[data-modal-title]");
-const modalText = document.querySelector("[data-modal-text]");
-
-const testimonialsModalFunc = function () {
-  elementToggleFunc(modalContainer);
-  elementToggleFunc(overlay);
-};
-
-if (testimonialsItem.length && modalContainer && modalImg && modalTitle && modalText) {
-  testimonialsItem.forEach(item => {
-    item.addEventListener("click", function () {
-      modalImg.src = this.querySelector("[data-testimonials-avatar]")?.src || "";
-      modalImg.alt = this.querySelector("[data-testimonials-avatar]")?.alt || "";
-      modalTitle.innerHTML = this.querySelector("[data-testimonials-title]")?.innerHTML || "";
-      modalText.innerHTML = this.querySelector("[data-testimonials-text]")?.innerHTML || "";
-      testimonialsModalFunc();
-    });
-  });
-}
-
-if (modalCloseBtn && overlay) {
-  modalCloseBtn.addEventListener("click", testimonialsModalFunc);
-  overlay.addEventListener("click", testimonialsModalFunc);
+  sidebarBtn.addEventListener("click", () => elementToggleFunc(sidebar));
 }
 
 /* =======================
@@ -63,7 +28,8 @@ const filterItems = document.querySelectorAll("[data-filter-item]");
 
 const filterFunc = function (selectedValue) {
   filterItems.forEach(item => {
-    if (selectedValue === "all" || selectedValue === item.dataset.category) {
+    const category = item.dataset.category?.toLowerCase();
+    if (selectedValue === "all" || selectedValue === category) {
       item.classList.add("active");
     } else {
       item.classList.remove("active");
@@ -72,9 +38,7 @@ const filterFunc = function (selectedValue) {
 };
 
 if (select) {
-  select.addEventListener("click", function () {
-    elementToggleFunc(this);
-  });
+  select.addEventListener("click", () => elementToggleFunc(select));
 
   selectItems.forEach(item => {
     item.addEventListener("click", function () {
@@ -95,3 +59,46 @@ filterBtn.forEach(btn => {
     filterFunc(selectedValue);
 
     if (lastClickedBtn) lastClickedBtn.classList.remove("active");
+    this.classList.add("active");
+    lastClickedBtn = this;
+  });
+});
+
+/* =======================
+   Contact Form
+======================= */
+const form = document.querySelector("[data-form]");
+const formInputs = document.querySelectorAll("[data-form-input]");
+const formBtn = document.querySelector("[data-form-btn]");
+
+if (form && formInputs.length && formBtn) {
+  formInputs.forEach(input => {
+    input.addEventListener("input", () => {
+      form.checkValidity()
+        ? formBtn.removeAttribute("disabled")
+        : formBtn.setAttribute("disabled", "");
+    });
+  });
+}
+
+/* =======================
+   Page Navigation (CRITICAL)
+======================= */
+const navigationLinks = document.querySelectorAll("[data-nav-link]");
+const pages = document.querySelectorAll("[data-page]");
+
+navigationLinks.forEach(link => {
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+    const target = this.innerText.toLowerCase();
+
+    pages.forEach(page => {
+      page.classList.toggle("active", page.dataset.page === target);
+    });
+
+    navigationLinks.forEach(nav => nav.classList.remove("active"));
+    this.classList.add("active");
+
+    window.scrollTo(0, 0);
+  });
+});
