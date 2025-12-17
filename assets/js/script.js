@@ -102,3 +102,27 @@ navLinks.forEach(link => {
     window.scrollTo(0, 0);
   });
 });
+
+const contactForm = document.querySelector("[data-form]");
+const status = document.getElementById("form-status");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const data = new FormData(contactForm);
+
+    const response = await fetch(contactForm.action, {
+      method: contactForm.method,
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      status.innerHTML = "✅ Message sent successfully!";
+      contactForm.reset();
+    } else {
+      status.innerHTML = "❌ Oops! Something went wrong.";
+    }
+  });
+}
+
