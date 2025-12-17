@@ -1,3 +1,5 @@
+alert("JS LOADED");
+
 'use strict';
 
 /* =======================
