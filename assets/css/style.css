@@ -555,6 +555,12 @@ main {
   line-height: 1.6;
 }
 
+.service-item:hover svg {
+  stroke: #ffd88a;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
 
 /**
  * #testimonials 
