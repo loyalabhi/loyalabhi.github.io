@@ -1,5 +1,3 @@
-alert("JS LOADED");
-
 'use strict';
 
 /* =======================
@@ -28,14 +26,13 @@ const selectValue = document.querySelector("[data-select-value]");
 const filterBtns = document.querySelectorAll("[data-filter-btn]");
 const filterItems = document.querySelectorAll("[data-filter-item]");
 
-function filterProjects(selectedValue) {
+function filterProjects(value) {
   filterItems.forEach(item => {
     const category = item.dataset.category.toLowerCase();
-    if (selectedValue === "all" || selectedValue === category) {
-      item.classList.add("active");
-    } else {
-      item.classList.remove("active");
-    }
+    item.classList.toggle(
+      "active",
+      value === "all" || value === category
+    );
   });
 }
 
@@ -84,7 +81,7 @@ if (form && inputs.length && submitBtn) {
 }
 
 /* =======================
-   Page Navigation (FIXED)
+   Page Navigation
 ======================= */
 const navLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
