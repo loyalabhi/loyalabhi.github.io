@@ -1886,3 +1886,22 @@ textarea.form-input::-webkit-resizer { display: none; }
   .timeline-text { max-width: 700px; }
 
 }
+
+.project-title {
+  color: #7f5af0;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.project-desc {
+  font-size: 13px;
+  color: #ccc;
+  margin-bottom: 6px;
+}
+
+.project-tech {
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 0.5px;
+}
+
